@@ -3,6 +3,7 @@ using namespace std;
 
 void bit_reversal_indeces(int *forward_index, int *reversed_index);
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size);
+short FFT(short int dir, long m, double *x, double *y);
 
 // Test driver for "Bit Mirroring Algorithm"
 void main()
@@ -10,7 +11,8 @@ void main()
 	int indeces[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 	int re_index[16];
 
-	double samples_in[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	//double samples_in[16] = { 0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5, 0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5 };
+	double samples_in[16] = { 0, 1, 0, -1, 0, 1, 0, -1, 0, 1, 0, -1, 0, 1, 0, -1 };
 	double samples_out[16];
 
 	bit_reversal_indeces(indeces, re_index);
@@ -19,9 +21,18 @@ void main()
 	int i = 0;
 	for (i = 0; i < 16; i++)
 	{
-		cout << samples_in[i] << "   " << samples_out[i] << endl;
+		cout << samples_in[i] << "      " << samples_out[i] << endl;
 	}
 
+	cout << "\n\n\n" << endl;
+
+	double imaginary[16] = { 0 };
+	FFT(1, 4, samples_out, imaginary);
+
+	for (i = 0; i < 16; i++)
+	{
+		cout << samples_out[i] << "      " << imaginary[i] << endl;
+	}
 
 	system("pause");
 }
@@ -84,6 +95,7 @@ void bit_reversal_indeces(int *forward_index, int *reversed_index)
 *		  4) sample size of arrays
 * Outputs: Null
 ***********************************************************************/
+const int SAMPLE_FREQ = 2000;
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size)
 {
 	int i = 0;
@@ -93,13 +105,26 @@ void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, 
 	}
 }
 
-
-/* Compute the FFT */
+//Compute the FFT
+/********************************************************
+* FFT Algoritm
+* Inputs: 1 = forward FFT
+*		  m = 2^m length of array
+*		  x = real 
+*		  y = imaginary
+* Outputs: None
+********************************************************/
 short FFT(short int dir, long m, double *x, double *y)
 {
 	long n, i, i1, j, k, i2, l, l1, l2;
 	double c1, c2, tx, ty, t1, t2, u1, u2, z;
 
+	//Calculate the number of points
+	n = 1;
+	for (i = 0; i<m; i++)
+		n *= 2;
+
+	//FFT Computation
 	c1 = -1.0;
 	c2 = 0.0;
 	l2 = 1;
@@ -129,7 +154,7 @@ short FFT(short int dir, long m, double *x, double *y)
 		c1 = sqrt((1.0 + c1) / 2.0);
 	}
 
-	/* Scaling for forward transform */
+	//Scaling for forward transform
 	if (dir == 1) {
 		for (i = 0; i<n; i++) {
 			x[i] /= n;

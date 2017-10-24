@@ -15,9 +15,9 @@ void fft_shift(unsigned int sample_size, double *samples);
 
 //Global variables
 //Frequency = (SAMPLE_FREQ * INDEX) / MAX_INDEX
-const unsigned int SAMPLE_FREQ = 2000;
+const int SAMPLE_FREQ = 2000;
 const unsigned int INDEX_BIT_LENGTH = 4;
-const unsigned int MAX_INDEX = 16;
+const int MAX_INDEX = 16;
 
 // Test driver for "Bit Mirroring Algorithm"
 void main()
@@ -294,6 +294,7 @@ void frequency_scaling(int *indeces)
 	int i = 0;
 	for (i = 0; i < MAX_INDEX; i++)
 	{
+		indeces[i] = indeces[i] - (MAX_INDEX / 2);
 		indeces[i] = (SAMPLE_FREQ * indeces[i]) / MAX_INDEX;
 	}
 }

@@ -7,8 +7,9 @@ void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, 
 short FFT(long m, double *x, double *y);
 short IFFT(long m, double *x, double *y);
 void magnitude(unsigned int size, double *magnitude, double *real, double *complex);
-int max(double *input_array, unsigned int size);
+double max(double *input_array, unsigned int size);
 void frequency_scaling(int *indeces);
+void amplitude_scaling(unsigned int sample_size, double *samples);
 void fft_shift(unsigned int sample_size, double *samples);
 
 
@@ -45,8 +46,11 @@ void main()
 	double mag[16];
 
 	magnitude(16, mag, samples_out, imaginary);
+	amplitude_scaling(MAX_INDEX, mag);
+
 	fft_shift(MAX_INDEX, mag);
 	frequency_scaling(indeces);
+	
 
 	for (i = 0; i < 16; i++)
 	{
@@ -262,16 +266,16 @@ void magnitude(unsigned int size, double *magnitude, double *real, double *compl
 * Calculate Max Value in First Half of Array
 * Inputs: input array = array of doubles
 *		  size = size of array
-* Outputs: None
+* Outputs: max value in input array
 *******************************************************************/
-int max(double *input_array, unsigned int size)
+double max(double *input_array, unsigned int size)
 {
 	size = size / 2;
 	int i = 0;
-	int max = 0;
+	double max = 0;
 	for (i = 0; i < size - 1; i++)
 	{
-		if (max < input_array[i + 1]) max = input_array[i];
+		if (max < input_array[i]) max = input_array[i];
 	}
 
 	return max;
@@ -301,12 +305,14 @@ void frequency_scaling(int *indeces)
 *		  samples = array of sample values
 * Outputs: None
 *******************************************************************/
-void amplitude_scaling(int max, unsigned int sample_size, double *samples)
+void amplitude_scaling(unsigned int sample_size, double *samples)
 {
 	int i = 0;
+	double max_val = max(samples, sample_size);
+
 	for (i = 0; i < sample_size; i++)
 	{
-		samples[i] = samples[i] / max;
+		samples[i] = samples[i] / max_val;
 	}
 }
 

@@ -7,13 +7,16 @@ void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, 
 short FFT(long m, double *x, double *y);
 short IFFT(long m, double *x, double *y);
 void magnitude(unsigned int size, double *magnitude, double *real, double *complex);
+int max(double *input_array, unsigned int size);
+void frequency_scaling(int *indeces);
+void fft_shift(unsigned int sample_size, double *samples);
 
 
 //Global variables
 //Frequency = (SAMPLE_FREQ * INDEX) / MAX_INDEX
-const int SAMPLE_FREQ = 2000;
-const int INDEX_BIT_LENGTH = 4;
-const int MAX_INDEX = 16;
+const unsigned int SAMPLE_FREQ = 2000;
+const unsigned int INDEX_BIT_LENGTH = 4;
+const unsigned int MAX_INDEX = 16;
 
 // Test driver for "Bit Mirroring Algorithm"
 void main()
@@ -42,11 +45,13 @@ void main()
 	double mag[16];
 
 	magnitude(16, mag, samples_out, imaginary);
+	fft_shift(MAX_INDEX, mag);
+	frequency_scaling(indeces);
 
 	for (i = 0; i < 16; i++)
 	{
 		//cout << samples_out[i] << "      " << imaginary[i] << endl;
-		cout << mag[i] << endl;
+		cout << mag[i] << "          " << indeces[i] << endl;
 	}
 
 	system("pause");
@@ -250,6 +255,80 @@ void magnitude(unsigned int size, double *magnitude, double *real, double *compl
 	{
 		magnitude[i] = (real[i] * real[i]) + (complex[i] * complex[i]);
 		magnitude[i] = sqrt(magnitude[i]);
+	}
+}
+
+/*******************************************************************
+* Calculate Max Value in First Half of Array
+* Inputs: input array = array of doubles
+*		  size = size of array
+* Outputs: None
+*******************************************************************/
+int max(double *input_array, unsigned int size)
+{
+	size = size / 2;
+	int i = 0;
+	int max = 0;
+	for (i = 0; i < size - 1; i++)
+	{
+		if (max < input_array[i + 1]) max = input_array[i];
+	}
+
+	return max;
+}
+
+/*******************************************************************
+* Scale Frequencies
+* Inputs: input array = array of indeces for FFT
+*		  sample_size = length of input array
+*		  sample_frequency = frequency the device is sampling 
+*							 the data at
+* Outputs: None
+*******************************************************************/
+void frequency_scaling(int *indeces)
+{
+	int i = 0;
+	for (i = 0; i < MAX_INDEX; i++)
+	{
+		indeces[i] = (SAMPLE_FREQ * indeces[i]) / MAX_INDEX;
+	}
+}
+
+/*******************************************************************
+* Scale Amplitudes
+* Inputs: max = max value in input array
+*		  sample_size = length of sample array
+*		  samples = array of sample values
+* Outputs: None
+*******************************************************************/
+void amplitude_scaling(int max, unsigned int sample_size, double *samples)
+{
+	int i = 0;
+	for (i = 0; i < sample_size; i++)
+	{
+		samples[i] = samples[i] / max;
+	}
+}
+
+/*******************************************************************
+* Shifts the axis to be zero centered
+* Inputs: sample_size = length of sample array
+*		  samples = array of sample values
+* Outputs: None
+*******************************************************************/
+void fft_shift(unsigned int sample_size, double *samples)
+{
+	int i = 0;
+	double temp1 = 0, temp2 = 0;
+	unsigned int N = sample_size / 2;
+
+	for (i = 0; i < N; i++)
+	{
+		temp1 = samples[i];
+		temp2 = samples[i + N];
+
+		samples[i] = temp2;
+		samples[i + N] = temp1;
 	}
 }
 

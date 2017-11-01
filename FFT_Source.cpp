@@ -2,6 +2,7 @@
 #include <math.h>
 using namespace std;
 
+void create_indeces(int *indeces);
 void bit_reversal_indeces(int *forward_index, int *reversed_index);
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size);
 short FFT(long m, double *x, double *y);
@@ -11,6 +12,10 @@ double max(double *input_array, unsigned int size);
 void frequency_scaling(int *indeces);
 void amplitude_scaling(unsigned int sample_size, double *samples);
 void fft_shift(unsigned int sample_size, double *samples);
+
+/***************************************************
+*Add function that averages four FFTs at a time
+****************************************************/
 
 
 //Global variables
@@ -22,15 +27,18 @@ const int MAX_INDEX = 16;
 // Test driver for "Bit Mirroring Algorithm"
 void main()
 {
-	int indeces[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-	int re_index[16];
+	int indeces[MAX_INDEX];		//allocate indeces array
+	create_indeces(indeces);	//generate indeces values
 
+	int re_index[MAX_INDEX];	//allocate re_index array
+
+	//sample array
 	double samples_in[16] = { 0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5, 0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5 };
 	//double samples_in[16] = { 0, 1, 0, -1, 0, 1, 0, -1, 0, 1, 0, -1, 0, 1, 0, -1 };
 	double samples_out[16];
 
-	bit_reversal_indeces(indeces, re_index);
-	bit_reversal(samples_in, samples_out, re_index, 16);
+	bit_reversal_indeces(indeces, re_index); //perform bit reversal on indeces
+	bit_reversal(samples_in, samples_out, re_index, 16); //assign samples to new indeces
 
 	int i = 0;
 	for (i = 0; i < 16; i++)
@@ -40,7 +48,8 @@ void main()
 
 	cout << "\n\n\n" << endl;
 
-	double imaginary[16] = { 0 };
+	//populate imaginary array with zeros, real signals only in application
+	double imaginary[16] = { 0 }; 
 	FFT(4, samples_out, imaginary);
 	
 	double mag[16];
@@ -59,6 +68,20 @@ void main()
 	}
 
 	system("pause");
+}
+
+/***********************************************************************
+* Creates indeces based off sample size
+* Inputs: pointer to empty array of indeces
+* Outputs: Null
+***********************************************************************/
+void create_indeces(int *indeces)
+{
+	int i = 0;
+	for (i = 0; i < MAX_INDEX; i++)
+	{
+		indeces[i] = i;
+	}
 }
 
 /***********************************************************************
@@ -170,8 +193,7 @@ short FFT(long m, double *x, double *y)
 			u1 = z;
 		}
 		c2 = sqrt((1.0 - c1) / 2.0);
-		if (dir == 1)
-			c2 = -c2;
+		if (dir == 1) c2 = -c2;
 		c1 = sqrt((1.0 + c1) / 2.0);
 	}
 

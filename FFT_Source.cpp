@@ -1,7 +1,9 @@
+//necessary libraries
 #include <iostream>
 #include <math.h>
 using namespace std;
 
+//prototyping
 void create_indeces(int *indeces);
 void bit_reversal_indeces(int *forward_index, int *reversed_index);
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size);
@@ -12,10 +14,9 @@ double max(double *input_array, unsigned int size);
 void frequency_scaling(int *indeces);
 void amplitude_scaling(unsigned int sample_size, double *samples);
 void fft_shift(unsigned int sample_size, double *samples);
-
-/***************************************************
-*Add function that averages four FFTs at a time
-****************************************************/
+void fft_average(double *samples1, double *samples2,
+	double *samples3, double *samples4, double *averaged_fft);
+//end prototyping
 
 
 //Global variables
@@ -269,7 +270,7 @@ short IFFT(long m, double *x, double *y)
 }
 
 /*******************************************************************
-* Calculate Magnitude of Compleze Vector
+* Calculate Magnitude of Complex Vector
 * Inputs: size = length of array
 *		  values = array of values to convert to abs value
 * Outputs: None
@@ -358,6 +359,25 @@ void fft_shift(unsigned int sample_size, double *samples)
 
 		samples[i] = temp2;
 		samples[i + N] = temp1;
+	}
+}
+
+
+/*******************************************************************
+* Averages four FFT arrays
+* Inputs: samples1 ... samples4: four samples of sequential 
+*			accelerometer data
+*		  averaged_fft: the output array of averaged samples 
+* Outputs: None
+*******************************************************************/
+void fft_average(double *samples1, double *samples2,
+	double *samples3, double *samples4, double *averaged_fft)
+{
+	int i = 0;
+	for (i = 0; i < MAX_INDEX; i++)
+	{
+		averaged_fft[i] = samples1[i] + samples2[i] + samples3[i] + samples4[i];
+		averaged_fft[i] = averaged_fft[i] / 4;
 	}
 }
 

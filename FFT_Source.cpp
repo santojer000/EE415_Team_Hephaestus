@@ -1,9 +1,22 @@
-//necessary libraries
 #include <iostream>
 #include <math.h>
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Programmer:  Team Hephaestus                                             *
+ *  Team:        - Chris Johnson (Communications Liaison)                    *
+ *               - Ryan Epperson                                             *
+ *               - Aron Galvan                                               *
+ *               - Jerome Santos                                             *
+ *  Date:        11/07/2017                                                  *
+ *  Course:      EE415--Design Project Management                            *
+ *  Term:        Fall 2017                                                   *
+ *  Project:     Vibration IoT Sensor Monitor Software                       *
+ *  File:		FFT_Source													 *
+ *  Description: Program that performs fast fourier transforms (FFT) on      *
+ *				incoming data.												 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 using namespace std;
 
-//prototyping
+// List of functions
 void create_indeces(int *indeces);
 void bit_reversal_indeces(int *forward_index, int *reversed_index);
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size);
@@ -14,13 +27,14 @@ double max(double *input_array, unsigned int size);
 void frequency_scaling(int *indeces);
 void amplitude_scaling(unsigned int sample_size, double *samples);
 void fft_shift(unsigned int sample_size, double *samples);
-void fft_average(double *samples1, double *samples2,
-	double *samples3, double *samples4, double *averaged_fft);
-//end prototyping
+
+/***************************************************
+*Add function that averages four FFTs at a time
+****************************************************/
 
 
-//Global variables
-//Frequency = (SAMPLE_FREQ * INDEX) / MAX_INDEX
+// Global variables
+// Frequency = (SAMPLE_FREQ * INDEX) / MAX_INDEX
 const int SAMPLE_FREQ = 2000;
 const unsigned int INDEX_BIT_LENGTH = 4;
 const int MAX_INDEX = 16;
@@ -69,13 +83,15 @@ void main()
 	}
 
 	system("pause");
-}
+}	// End main function
 
-/***********************************************************************
-* Creates indeces based off sample size
-* Inputs: pointer to empty array of indeces
-* Outputs: Null
-***********************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    create_indices				                         *
+ *  Input:       int pointer			                             *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that creates indices.						 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void create_indeces(int *indeces)
 {
 	int i = 0;
@@ -83,27 +99,33 @@ void create_indeces(int *indeces)
 	{
 		indeces[i] = i;
 	}
-}
+}	// End function
 
-/***********************************************************************
-* Bit Mirroring Index Algorithim
-* Run on initialization once to calculate bit reversed indeces
-* Inputs: pointer to array of indeces in sequential order
-*		  pointer to array of indeces to receieve reversed order 
-* Outputs: Null
-***********************************************************************/
-//Global constants for function - set before compling
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    bit_reversal_indeces				                 *
+ *  Input:       int pointer, int pointer			                 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Bit Mirroring Index Algorithim						 *
+ *					- Run on initialization once to calculate bit    *
+ *					  reversed indeces.								 *
+ *					- pointer to array of indeces in sequential		 *
+ *					  order.										 *
+ *		            - pointer to array of indeces to receieve        *
+ *					  reversed order.								 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void bit_reversal_indeces(int *forward_index, int *reversed_index)
 {
-	//declaration of variables - unsigned short is the only data type
-	//able to do bitwise shifting
+	// Global constants for function - set before compling
+	// Declaration of variables - unsigned short is the only data type
+	// Able to do bitwise shifting
 	unsigned short i = 0;
 	unsigned short j = 0;
 	unsigned short k;
 	unsigned short temp = 0;
 	unsigned short re_index;
 
-	//set array size to max bit length of index
+	// Set array size to max bit length of index
 	unsigned short index_stack[INDEX_BIT_LENGTH];
 
 	for (i = 0; i < MAX_INDEX; i++)
@@ -113,34 +135,35 @@ void bit_reversal_indeces(int *forward_index, int *reversed_index)
 		
 		for (j = 0; j < INDEX_BIT_LENGTH; j++)
 		{
-			temp = i & k;			//mask bits
-			temp = temp >> j;		//shift to zero position
-			index_stack[j] = temp;		//push to array
-			k = k << 1;				//shift mask bit
+			temp = i & k;			// Mask bits
+			temp = temp >> j;		// Shift to zero position
+			index_stack[j] = temp;	// Push to array
+			k = k << 1;				// Shift mask bit
 		}
 
-		re_index = 0;		//set new index to zero
+		re_index = 0;	// Set new index to zero
 		for (j = 0; j < INDEX_BIT_LENGTH; j++)
 		{
-			//reconstruct mirrored byte and OR with new index
+			// Reconstruct mirrored byte and OR with new index
 			re_index = re_index | (index_stack[j] << (INDEX_BIT_LENGTH - 1 - j));
 		}
 
-		//set new array to old array
+		// Set new array to old array
 		*(reversed_index + re_index) = *(forward_index + i);
 	}
-}
+}	// End function
 
-
-/***********************************************************************
-* Bit Mirroring Algorithim
-* Run on initialization once to calculate bit reversed indeces
-* Inputs: 1) pointer to array of input samples
-*		  2) pointer to array of output samples
-*		  3) array of indexes for bit reversed order
-*		  4) sample size of arrays
-* Outputs: Null
-***********************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    bit_reversal						                 *
+ *  Input:       double pointer, double pointer, int pointer, int	 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Bit Mirroring Algorithim							 *
+ *					- pointer to array of input samples.			 *
+ *					- pointer to array of output samples.			 *
+ *					- array of indexes for bit reversed order.		 *
+ *					- sample size of arrays.						 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, int sample_size)
 {
 	int i = 0;
@@ -148,39 +171,47 @@ void bit_reversal(double *samples_in, double *samples_out, int *reversed_index, 
 	{
 		*(samples_out + i) = *(samples_in + *(reversed_index + i));
 	}
-}
+}	// End function
 
-//Compute the FFT
-/********************************************************
-* FFT Algoritm
-* Inputs: m = 2^m length of array
-*		  x = real 
-*		  y = imaginary
-* Outputs: None
-********************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    FFT									             *
+ *  Input:       long, double pointer, double pointer				 *
+ *  Output:      Boolean (1/0)                                       *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that performs FFT.						 *
+ *					- m = 2^m length of array						 *
+ *					- x = real										 *
+ *					- y = imaginary									 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 short FFT(long m, double *x, double *y)
 {
+	// Compute FFT
 	long n, i, i1, j, k, i2, l, l1, l2;
 	double c1, c2, tx, ty, t1, t2, u1, u2, z;
 	short int dir = -1;
 
 	//Calculate the number of points
 	n = 1;
-	for (i = 0; i<m; i++)
+	for (i = 0; i < m; i++)
+	{
 		n *= 2;
+	}
 
 	//FFT Computation
 	c1 = -1.0;
 	c2 = 0.0;
 	l2 = 1;
 
-	for (l = 0; l < m; l++) {
+	for (l = 0; l < m; l++)
+	{
 		l1 = l2;
 		l2 <<= 1;
 		u1 = 1.0;
 		u2 = 0.0;
-		for (j = 0; j<l1; j++) {
-			for (i = j; i<n; i += l2) {
+		for (j = 0; j<l1; j++)
+		{
+			for (i = j; i<n; i += l2)
+			{
 				i1 = i + l1;
 				t1 = u1 * x[i1] - u2 * y[i1];
 				t2 = u1 * y[i1] + u2 * x[i1];
@@ -199,47 +230,58 @@ short FFT(long m, double *x, double *y)
 	}
 
 	//Scaling for forward transform
-	if (dir == 1) {
-		for (i = 0; i<n; i++) {
+	if (dir == 1)
+	{
+		for (i = 0; i<n; i++)
+		{
 			x[i] /= n;
 			y[i] /= n;
 		}
 	}
 
 	return(1);
-}
+}	// End function
 
-//Compute the IFFT
-/********************************************************
-* IFFT Algoritm
-* Inputs: m = 2^m length of array
-*		  x = real
-*		  y = imaginary
-* Outputs: None
-********************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    IFFT									             *
+ *  Input:       long, double pointer, double pointer				 *
+ *  Output:      Boolean (1/0)                                       *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that performs an inverse FFT.				 *
+ *				 Used for auto correlation.							 *
+ *					- m = 2^m length of array						 *
+ *					- x = real										 *
+ *					- y = imaginary									 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 short IFFT(long m, double *x, double *y)
 {
+	// Comput IFFT
 	long n, i, i1, j, k, i2, l, l1, l2;
 	double c1, c2, tx, ty, t1, t2, u1, u2, z;
 	short int dir = 1;
 
 	//Calculate the number of points
 	n = 1;
-	for (i = 0; i<m; i++)
+	for (i = 0; i < m; i++)
+	{
 		n *= 2;
+	}
 
 	//FFT Computation
 	c1 = -1.0;
 	c2 = 0.0;
 	l2 = 1;
 
-	for (l = 0; l < m; l++) {
+	for (l = 0; l < m; l++)
+	{
 		l1 = l2;
 		l2 <<= 1;
 		u1 = 1.0;
 		u2 = 0.0;
-		for (j = 0; j<l1; j++) {
-			for (i = j; i<n; i += l2) {
+		for (j = 0; j<l1; j++)
+		{
+			for (i = j; i<n; i += l2)
+			{
 				i1 = i + l1;
 				t1 = u1 * x[i1] - u2 * y[i1];
 				t2 = u1 * y[i1] + u2 * x[i1];
@@ -259,22 +301,35 @@ short IFFT(long m, double *x, double *y)
 	}
 
 	//Scaling for forward transform
-	if (dir == 1) {
-		for (i = 0; i<n; i++) {
+	if (dir == 1)
+	{
+		for (i = 0; i<n; i++)
+		{
 			x[i] /= n;
 			y[i] /= n;
 		}
 	}
 
 	return(1);
-}
+}	// End function
 
 /*******************************************************************
-* Calculate Magnitude of Complex Vector
+* Calculate Magnitude of Compleze Vector
 * Inputs: size = length of array
 *		  values = array of values to convert to abs value
 * Outputs: None
 *******************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    magnitude								             *
+ *  Input:       unsigned int, double pointer, double pointer,		 *
+ *				 double pointer										 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that calculates the magnitude of the		 *
+ *				 complete vector.									 *
+ *					- size = length of array						 *
+ *					- values = array of values to converto to abs val*
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void magnitude(unsigned int size, double *magnitude, double *real, double *complex)
 {
 	int i = 0;
@@ -283,14 +338,17 @@ void magnitude(unsigned int size, double *magnitude, double *real, double *compl
 		magnitude[i] = (real[i] * real[i]) + (complex[i] * complex[i]);
 		magnitude[i] = sqrt(magnitude[i]);
 	}
-}
+}	// End function
 
-/*******************************************************************
-* Calculate Max Value in First Half of Array
-* Inputs: input array = array of doubles
-*		  size = size of array
-* Outputs: max value in input array
-*******************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    max									             *
+ *  Input:       double pointer, unsigned int						 *
+ *  Output:      double                                              *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that calculates the max value an array.	 *
+ *					- input array = array of doubles				 *
+ *					- size = size of array							 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 double max(double *input_array, unsigned int size)
 {
 	size = size / 2;
@@ -302,16 +360,18 @@ double max(double *input_array, unsigned int size)
 	}
 
 	return max;
-}
+}	// End function
 
-/*******************************************************************
-* Scale Frequencies
-* Inputs: input array = array of indeces for FFT
-*		  sample_size = length of input array
-*		  sample_frequency = frequency the device is sampling 
-*							 the data at
-* Outputs: None
-*******************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    frequency_scaling									 *
+ *  Input:       int pointer										 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that scales frequencies					 *
+ *					- input array = array of indices for FFT		 *
+ *					- sample_size = length of input array			 *
+ *					- sample_frequency = data sampling frequency     *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void frequency_scaling(int *indeces)
 {
 	int i = 0;
@@ -320,15 +380,18 @@ void frequency_scaling(int *indeces)
 		indeces[i] = indeces[i] - (MAX_INDEX / 2);
 		indeces[i] = (SAMPLE_FREQ * indeces[i]) / MAX_INDEX;
 	}
-}
+}	// End function
 
-/*******************************************************************
-* Scale Amplitudes
-* Inputs: max = max value in input array
-*		  sample_size = length of sample array
-*		  samples = array of sample values
-* Outputs: None
-*******************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    amplitude_scaling									 *
+ *  Input:       unsigned int, double pointer						 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that scales amplitude						 *
+ *					- max = max value in input array				 *
+ *					- sample_size = length of input array			 *
+ *					- samples = array of sample values			     *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void amplitude_scaling(unsigned int sample_size, double *samples)
 {
 	int i = 0;
@@ -338,14 +401,17 @@ void amplitude_scaling(unsigned int sample_size, double *samples)
 	{
 		samples[i] = samples[i] / max_val;
 	}
-}
+}	// End function
 
-/*******************************************************************
-* Shifts the axis to be zero centered
-* Inputs: sample_size = length of sample array
-*		  samples = array of sample values
-* Outputs: None
-*******************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *  Function:    fft_shift											 *
+ *  Input:       unsigned int, double pointer						 *
+ *  Output:      void                                                *
+ *  See Funcs:   N/A                                                 *
+ *  Description: Function that shifts the axis to be zero centered.  *
+ *				 sample_size = length of sample array				 *
+ *				 samples = array of sample values					 *
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void fft_shift(unsigned int sample_size, double *samples)
 {
 	int i = 0;
@@ -360,24 +426,5 @@ void fft_shift(unsigned int sample_size, double *samples)
 		samples[i] = temp2;
 		samples[i + N] = temp1;
 	}
-}
-
-
-/*******************************************************************
-* Averages four FFT arrays
-* Inputs: samples1 ... samples4: four samples of sequential 
-*			accelerometer data
-*		  averaged_fft: the output array of averaged samples 
-* Outputs: None
-*******************************************************************/
-void fft_average(double *samples1, double *samples2,
-	double *samples3, double *samples4, double *averaged_fft)
-{
-	int i = 0;
-	for (i = 0; i < MAX_INDEX; i++)
-	{
-		averaged_fft[i] = samples1[i] + samples2[i] + samples3[i] + samples4[i];
-		averaged_fft[i] = averaged_fft[i] / 4;
-	}
-}
+}	// End function
 

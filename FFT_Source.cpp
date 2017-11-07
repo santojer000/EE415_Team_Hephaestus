@@ -313,12 +313,6 @@ short IFFT(long m, double *x, double *y)
 	return(1);
 }	// End function
 
-/*******************************************************************
-* Calculate Magnitude of Compleze Vector
-* Inputs: size = length of array
-*		  values = array of values to convert to abs value
-* Outputs: None
-*******************************************************************/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Function:    magnitude								             *
  *  Input:       unsigned int, double pointer, double pointer,		 *

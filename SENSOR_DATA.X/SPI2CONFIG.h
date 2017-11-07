@@ -23,7 +23,7 @@ void initSPI(void)
      
     SPI2BUF = 0;                // Clear the receive buffer
      
-    SPI2BRG = 19;                // FSCK = 1MHz
+    SPI2BRG = 4;                // FSCK = 1MHz
      
     SPI2STATbits.SPIROV = 0;    // Clear overflow flag
      

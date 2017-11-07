@@ -18,11 +18,15 @@
 #pragma config FPLLODIV = DIV_1
 #pragma config FPBDIV = DIV_2
 #pragma config FSOSCEN = OFF
-
+void delay(int x)
+{
+    int i = 0;
+    for(i = 0; i < x; i++);
+}
 void ADXL345SETUP()
 {
-    WriteSPI(ADXL345_POWER_CTL, ADXL345_MEASURE); //Addresses the power control register of the sensor and sets bit 3
-    WriteSPI(ADXL345_DATA_FORMAT, ADXL345_DATA_JUST_LEFT);//Addresses the data format register of the sensor and sets bit 2 
+    WriteSPI(ADXL345_POWER_CTL, 0);
+    WriteSPI(ADXL345_POWER_CTL, ADXL345_MEASURE);//Addresses the power control register of the sensor and sets bit 3
     WriteSPI(ADXL345_BW_RATE, ADXL345_RATE_3200);//Addresses the baud rate register of the sensor and sets the bits D3-D0
 }
 
@@ -75,20 +79,22 @@ void main (void)
     int *DATA; //Will copy the pointer address for the read data
     
     initSPI(); //Initialize the SPI2 on the MX4 board
+    
+    while(DUMMY != 0xE5)
+    {
+        DUMMY = READSPI(ADXL345_DEVID, 0);
+    }
     ADXL345SETUP();//Configure the ADXL345
     while(1)
     {
         //To ensure proper communication the device id is read
-        while(DUMMY != 0xE5)
-        {
-            DUMMY = READSPI(ADXL345_DEVID, 0);
-        }
         for(i =0; i < 1025; i++)
         {
             DATA = ReadData(ADXL345_DATAX0 | ADXL345_READ | ADXL345_MB);
             X_DATA[i] = (*(DATA + 1) << 8) | *(DATA);
             Y_DATA[i] = (*(DATA + 3) << 8) | *(DATA + 2);
             Z_DATA[i] = (*(DATA + 5) << 8) | *(DATA + 4);
+            delay(100000); //Small Delay between reads
         }
     }
 

@@ -1,16 +1,16 @@
 /* 
- * File:   SPI2CONFIG.h
+ * File:   SPI.h
  * Author: Adoney
  *
- * Created on October 30, 2017, 7:57 PM
+ * Created on November 10, 2017, 6:10 PM
  */
 
-#ifndef SPI2CONFIG_H
-#define	SPI2CONFIG_H
+#ifndef SPI_H
+#define	SPI_H
 #include <xc.h>
 #include "ADXL345.h"
 
-void initSPI(void)
+void INTISPI2(void)
 {
     TRISGbits.TRISG9 = 0;
     LATGbits.LATG9 = 1;         // Set CS high (idle state)
@@ -43,7 +43,7 @@ void initSPI(void)
     SPI2CONbits.ON = 1;         // Turn module on
 }
 
-void WriteSPI(int address, int data)
+void WRITESPI2(int address, int data)
 {
     int DUMMY;
     LATGbits.LATG9 = 0;// Set the chip select low
@@ -56,7 +56,7 @@ void WriteSPI(int address, int data)
     DUMMY = SPI2BUF;
     LATGbits.LATG9 = 1;// Set the chip select back high
 }
-int READSPI(int address, int data)
+int READSPI2(int address, int data)
 {
     int DUMMY;
     LATGbits.LATG9 = 0;// Set the chip select low
@@ -85,5 +85,5 @@ int READSPI(int address, int data)
     LATGbits.LATG9 = 1;// Set the chip select back high
     return DUMMY;
 }
-#endif	/* SPI2CONFIG_H */
+#endif	/* SPI_H */
 

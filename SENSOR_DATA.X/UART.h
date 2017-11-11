@@ -9,6 +9,7 @@
 #define	UART_H
 #include <xc.h>
 #include "ADXL345.h"
+#include "DATATYPES.h"
 
 void INTIUART1(void)
 {
@@ -42,14 +43,14 @@ void INTIUART1(void)
     U1STAbits.UTXEN = 1;                // UART1 transmitter is enabled
 }
 
-void SENDUART1(int data)
+void SENDUART1(BYTE data)
 {
     U1STAbits.UTXEN = 1;                // Make sure transmitter is enabled
     while(U1STAbits.UTXBF);             // Wait while buffer is full
     U1TXREG = data;                        // Transmit character
 }
 
-int READUART1(void)
+BYTE READUART1(void)
 {
     //RTS = 0                           // Optional RTS use
     while(!U1STAbits.URXDA)             // Wait for information to be received

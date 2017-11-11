@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/default/production/SENSOR_DATA.X.production.elf">                 
+  <executable name="dist/default/debug/SENSOR_DATA.X.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>531968</length>                 
-      <used>8856</used>                     
-      <free>523112</free>                     
+      <used>4044</used>                     
+      <free>527924</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>32768</length>                 
-      <used>176</used>                     
-      <free>32592</free>                     
+      <length>33280</length>                 
+      <used>1024</used>                     
+      <free>32256</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

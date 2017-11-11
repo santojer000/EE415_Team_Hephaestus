@@ -9,6 +9,7 @@
 #define	SPI_H
 #include <xc.h>
 #include "ADXL345.h"
+#include "DATATYPES.h"
 
 void INTISPI2(void)
 {
@@ -43,7 +44,7 @@ void INTISPI2(void)
     SPI2CONbits.ON = 1;         // Turn module on
 }
 
-void WRITESPI2(int address, int data)
+void WRITESPI2(BYTE address, BYTE data)
 {
     int DUMMY;
     LATGbits.LATG9 = 0;// Set the chip select low
@@ -56,7 +57,8 @@ void WRITESPI2(int address, int data)
     DUMMY = SPI2BUF;
     LATGbits.LATG9 = 1;// Set the chip select back high
 }
-int READSPI2(int address, int data)
+
+BYTE READSPI2(BYTE address, BYTE data)
 {
     int DUMMY;
     LATGbits.LATG9 = 0;// Set the chip select low

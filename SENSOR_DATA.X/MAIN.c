@@ -4,12 +4,13 @@
  *
  * Created on October 30, 2017, 7:57 PM
  */
-#include <plib.h>
 #include "SPI.h"
 #include "UART.h"
 #include "ADXL345.h"
+#include "DATATYPES.h"
 #include <stdio.h>
 #include <xc.h>
+#include <math.h>
 
 //Configures the PBCLK to 40Mhz
 #pragma config FNOSC = PRIPLL 
@@ -19,69 +20,35 @@
 #pragma config FPLLODIV = DIV_1
 #pragma config FPBDIV = DIV_2
 #pragma config FSOSCEN = OFF
+
 void DELAY(int x);
 void ADXL345SETUP();
-void INTTOASCII(int DATA);
+void INTTOASCII(int DATA, int SIZE);
+struct DATA_PACKET READDATA();
+void DISPLAYDATA(struct DATA_PACKET DATA);
 
 void main (void)
 {   
     int DUMMY; 
     int i = 0; //i will be used to index the buffer arrays
-    int DATA[6]; //Will copy the pointer address for the read data
+    struct DATA_PACKET DATA;
     
+    INTISPI2(); //Initialize SPI2 on the MX4 board
+    INTIUART1();//Initialize UART1 on the MX4 board
     
-    INTISPI2(); //Initialize the SPI2 on the MX4 board
-    INTIUART1();
-    
+    //To ensure that the SPI module is configured correctly the DEVICE ID is read
+    //If it matches the know ID 0xE5 the program continues
     while(DUMMY != 0xE5)
     {
         DUMMY = READSPI2(ADXL345_DEVID, 0);        
     }
+    //Sets up the ADXL345 to sensitivity 2g, measure mode, no interrupts, and 3200Hz
     ADXL345SETUP();//Configure the ADXL345
     while(1)
     {
-        LATGbits.LATG9 = 0;
-        
-        SPI2BUF = (ADXL345_DATAX0 | ADXL345_MB | ADXL345_READ);
-        while(!SPI2STATbits.SPIRBF);
-        DUMMY = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[0] = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[1] = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[2] = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[3] = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[4] = SPI2BUF;
-        
-        SPI2BUF = 0;
-        while(!SPI2STATbits.SPIRBF);
-        DATA[5] = SPI2BUF;
-        
-        LATGbits.LATG9 = 1;
+        DATA = READDATA();//Reads the x, y, z data registers 
         DELAY(50000); //Small Delay between reads
-        
-        SENDUART1(88);
-        SENDUART1(58);
-        INTTOASCII((DATA[1] << 8 | DATA[0]));
-        SENDUART1(89);
-        SENDUART1(58);
-        INTTOASCII((DATA[3] << 8 | DATA[2]));
-        SENDUART1(90);
-        SENDUART1(58);
-        INTTOASCII((DATA[5] << 8 | DATA[4]));
+        DISPLAYDATA(DATA);//Sends the data to UART the BLUETOOTH module 
     }
     return 0;
 }
@@ -94,31 +61,92 @@ void DELAY(int x)
 
 void ADXL345SETUP()
 {
-    WRITESPI2(ADXL345_POWER_CTL, 0);
+    WRITESPI2(ADXL345_POWER_CTL, 0);//Clears the power control register
     WRITESPI2(ADXL345_POWER_CTL, ADXL345_MEASURE);//Addresses the power control register of the sensor and sets bit 3
     WRITESPI2(ADXL345_BW_RATE, ADXL345_RATE_3200);//Addresses the baud rate register of the sensor and sets the bits D3-D0
 }
 
-void INTTOASCII(int DATA)
+//Converts the numeric values into the ascii value
+void INTTOASCII(int DATA, int SIZE)
 {
     int i = 0;
-    int array[3];
+    BYTE array[10];
     int temp;
+    int temp2;
     
-    temp = DATA / 100; 
-    array[0] = temp + 48;
-    DATA = DATA % 100;
+    if(SIZE == 0)
+    {
+        SIZE = 1;
+        temp2 = 1;
+    }
+    else
+    {
+        temp2 = pow(10, (SIZE-1));
+    }
     
-    temp = DATA / 10;
-    array[1] = temp + 48;
-    DATA = DATA % 10;
+    for(i = 0; i < SIZE; i++)
+    {
+        temp = DATA / temp2;
+        array[i] = temp + 48;
+        DATA = DATA % temp2;
+        temp2 = temp2 / 10;
+    }
     
-    temp = DATA / 1;
-    array[2] = temp + 48;
-        
-    for(i = 0; i < 3; i++)
+    for(i = 0; i < SIZE; i++)
     {
         SENDUART1(array[i]);
     }
 
+}
+
+struct DATA_PACKET READDATA()
+{
+    BYTE DUMMY;
+    struct DATA_PACKET DATA;
+    
+    LATGbits.LATG9 = 0;
+
+    SPI2BUF = (ADXL345_DATAX0 | ADXL345_MB | ADXL345_READ);
+    while(!SPI2STATbits.SPIRBF);
+    DUMMY = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.X0 = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.X1 = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.Y0 = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.Y1 = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.Z0 = SPI2BUF;
+
+    SPI2BUF = 0;
+    while(!SPI2STATbits.SPIRBF);
+    DATA.Z1 = SPI2BUF;
+
+    LATGbits.LATG9 = 1;
+    return DATA;
+}
+
+void DISPLAYDATA(struct DATA_PACKET DATA)
+{
+    SENDUART1(CHAR_X);
+    SENDUART1(COLON);
+    INTTOASCII((DATA.X1 << 8 | DATA.X0), 3);
+    SENDUART1(CHAR_Y);
+    SENDUART1(COLON);
+    INTTOASCII((DATA.Y1 << 8 | DATA.Y0), 3);
+    SENDUART1(CHAR_Z);
+    SENDUART1(COLON);
+    INTTOASCII((DATA.Z1 << 8| DATA.Z0), 3);
 }

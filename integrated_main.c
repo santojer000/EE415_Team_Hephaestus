@@ -27,6 +27,7 @@ void ADXL345SETUP();
 void INTTOASCII(int DATA, int SIZE);
 struct DATA_PACKET READDATA();
 void DISPLAYDATA(struct DATA_PACKET DATA);
+void SENDDATA(int size, float data);
 
 void main (void)
 {   
@@ -100,8 +101,11 @@ void main (void)
 		fft_shift(1024, y_samples_reversed);
 		fft_shift(1024, z_samples_reversed);
 
-        DELAY(50000); //Small Delay between reads
-        DISPLAYDATA(DATA);//Sends the data to UART the BLUETOOTH module 
+		//Senddata 
+		SENDDATA(1024, x_samples_reversed);
+		SENDDATA(1024, y_samples_reversed);
+		SENDDATA(1024, z_samples_reversed);
+
     }
     return 0;
 }
@@ -202,4 +206,23 @@ void DISPLAYDATA(struct DATA_PACKET DATA)
     SENDUART1(CHAR_Z);
     SENDUART1(COLON);
     INTTOASCII((DATA.Z1 << 8| DATA.Z0), 3);
+}
+void SENDDATA(int size, float data);
+{
+	BYTE D_1;
+	BYTE D_2;
+	BYTE D_3;
+	BYTE D_4;
+
+	for (int i = 0; i < 1024; i++)
+	{
+		D_1 = (data[i] & 0xF000) >> 24;//Mask off bits 31-24 >> Shift by 24 to get into 7-0 index
+		D_2 = (data[i] & 0x0F00) >> 16;//Mask off bits 23-16 >> Shift by 16 to get into 7-0 index
+		D_3 = (data[i] & 0x00F0) >> 8;//Mask off bits 15-8 >> Shift by 8 to get into 7-0 index
+		D_4 = (data[i] & 0x000F);//Mask off bits 7-0 
+		SENDUART1(D_1);//Send bits 31-24
+		SENDUART1(D_2);//Send bits 23-16
+		SENDUART1(D_3);
+		SENDUART1(D_4);
+	}
 }

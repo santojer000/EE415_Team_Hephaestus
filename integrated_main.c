@@ -54,24 +54,23 @@ void main (void)
 	frequency_scaling(indeces);
 
 	//Initialize data arrays
-	double x_samples[1024] = { 0 };
-	double y_samples[1024] = { 0 };
-	double z_samples[1024] = { 0 };
+	float x_samples[1024] = { 0 };
+	float y_samples[1024] = { 0 };
+	float z_samples[1024] = { 0 };
 	
-	double x_samples_reversed[1024] = { 0 };
-	double y_samples_reversed[1024] = { 0 };
-	double z_samples_reversed[1024] = { 0 };
+	float x_samples_reversed[1024] = { 0 };
+	float y_samples_reversed[1024] = { 0 };
+	float z_samples_reversed[1024] = { 0 };
 	
-	double imaginary[1024] = { 0 };
+	float imaginary[1024] = { 0 };
 
     while(1)
-    {
-        DATA = READDATA();//Reads the x, y, z data registers 
-		
-		//
+    {	
+		//Read and merge data
 		int i = 0;
 		for (i = 0; i < 1024; i++)
 		{
+			DATA = READDATA();//Reads the x, y, z data registers
 			x_samples[i] = (DATA.X1 << 8) | DATA.X0;
 			y_samples[i] = (DATA.Y1 << 8) | DATA.Y0;
 			z_samples[i] = (DATA.Z1 << 8) | DATA.Z0;

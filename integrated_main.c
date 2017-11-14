@@ -29,6 +29,12 @@ struct DATA_PACKET READDATA();
 void DISPLAYDATA(struct DATA_PACKET DATA);
 void SENDDATA(int size, float data);
 
+// Global variables
+// Frequency = (SAMPLE_FREQ * INDEX) / MAX_INDEX
+const int SAMPLE_FREQ = 2000;
+const unsigned int INDEX_BIT_LENGTH = 4;
+const int MAX_INDEX = 16;
+
 void main (void)
 {   
     int DUMMY; 

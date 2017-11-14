@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,5 +89,21 @@ namespace IoT_Vibration_Sensor_GUI
         {
 
         }   // End event
+
+        public static void systemLoad()
+        {
+            //OpenFileDialog ofd = new OpenFileDialog();
+            //if (ofd.ShowDialog() == DialogResult.OK)
+            //{
+            //    Stream loadFileStream = new FileStream(ofd.FileName,
+            //        FileMode.Open, FileAccess.Read);
+            //    wsuSystem.loadFromXML(loadFileStream);
+            //    loadFileStream.Dispose();   // Dispose
+            //}
+            Stream loadFileStream = new FileStream(@"C:\Users\Nani Quichocho\Documents\Visual Studio 2017\Projects\CPTS422_HW4\CPTS422_HW4\VibDataStream.xml",
+                    FileMode.Open, FileAccess.Read);
+            //wsuSystem.loadFromXML(loadFileStream);
+            loadFileStream.Dispose();   // Dispose
+        }   // End function
     }   // End class
 }   // End namespace

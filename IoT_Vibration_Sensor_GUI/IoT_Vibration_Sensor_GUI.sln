@@ -5,16 +5,56 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Vibration_Sensor_GUI", "IoT_Vibration_Sensor_GUI\IoT_Vibration_Sensor_GUI.csproj", "{8B6E8456-F6DC-40EB-AC08-92D553199A40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Vibration_Sensor_Database", "IoT_Vibration_Sensor_Database\IoT_Vibration_Sensor_Database.csproj", "{B87B6054-6BC3-44A6-ABA8-B1704934E69F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT_Vibration_Sensor_Logic", "IoT_Vibration_Sensor_Logic\IoT_Vibration_Sensor_Logic.csproj", "{2AF8D991-31E3-45AC-978E-2AF00D069775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Debug|x86.Build.0 = Debug|Any CPU
 		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|x64.Build.0 = Release|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B6E8456-F6DC-40EB-AC08-92D553199A40}.Release|x86.Build.0 = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|x64.Build.0 = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Debug|x86.Build.0 = Debug|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|x64.ActiveCfg = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|x64.Build.0 = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|x86.ActiveCfg = Release|Any CPU
+		{B87B6054-6BC3-44A6-ABA8-B1704934E69F}.Release|x86.Build.0 = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|x64.Build.0 = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|x64.ActiveCfg = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|x64.Build.0 = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AF8D991-31E3-45AC-978E-2AF00D069775}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

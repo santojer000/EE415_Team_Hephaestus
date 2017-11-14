@@ -51,17 +51,56 @@ void main (void)
 	int bit_reversed_indeces[1024] = { 0 };
 	create_indeces(indeces);
 	bit_reversal_indeces(indeces, bit_reversed_indeces);
+	frequency_scaling(indeces);
 
 	//Initialize data arrays
 	double x_samples[1024] = { 0 };
 	double y_samples[1024] = { 0 };
 	double z_samples[1024] = { 0 };
+	
+	double x_samples_reversed[1024] = { 0 };
+	double y_samples_reversed[1024] = { 0 };
+	double z_samples_reversed[1024] = { 0 };
+	
 	double imaginary[1024] = { 0 };
-
 
     while(1)
     {
         DATA = READDATA();//Reads the x, y, z data registers 
+		
+		//
+		int i = 0;
+		for (i = 0; i < 1024; i++)
+		{
+			x_samples[i] = (DATA.X1 << 8) | DATA.X0;
+			y_samples[i] = (DATA.Y1 << 8) | DATA.Y0;
+			z_samples[i] = (DATA.Z1 << 8) | DATA.Z0;
+		}
+
+
+		//Assign samples to new indeces
+		bit_reversal(x_samples, x_samples_reversed, bit_reversed_indeces, 1024);
+		bit_reversal(y_samples, y_samples_reversed, bit_reversed_indeces, 1024);
+		bit_reversal(z_samples, z_samples_reversed, bit_reversed_indeces, 1024);
+
+		//Perform FFT
+		FFT(10, x_samples_reversed, imaginary);
+		FFT(10, y_samples_reversed, imaginary);
+		FFT(10, z_samples_reversed, imaginary);
+
+		//Normalize data set
+		magnitude(1024, x_samples_reversed, x_samples_reversed, imaginary);
+		amplitude_scaling(1024, x_samples_reversed);
+		magnitude(1024, y_samples_reversed, y_samples_reversed, imaginary);
+		amplitude_scaling(1024, y_samples_reversed);
+		magnitude(1024, z_samples_reversed, z_samples_reversed, imaginary);
+		amplitude_scaling(1024, z_samples_reversed);
+
+		//Reorder output
+		fft_shift(1024, x_samples_reversed);
+		fft_shift(1024, y_samples_reversed);
+		fft_shift(1024, z_samples_reversed);
+
         DELAY(50000); //Small Delay between reads
         DISPLAYDATA(DATA);//Sends the data to UART the BLUETOOTH module 
     }

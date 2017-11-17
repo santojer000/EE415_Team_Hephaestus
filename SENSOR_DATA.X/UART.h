@@ -49,7 +49,17 @@ void SENDUART1(BYTE data)
     while(U1STAbits.UTXBF);             // Wait while buffer is full
     U1TXREG = data;                        // Transmit character
 }
+void SENDUART1ARRAY(char *data, int size)
+{
+    int i = 0;
+    for(i = 0; i < size; i++)
+    {
+        U1STAbits.UTXEN = 1;                // Make sure transmitter is enabled
+        while(U1STAbits.UTXBF);             // Wait while buffer is full
+        U1TXREG = *(data+i);                        // Transmit character
+    }
 
+}
 BYTE READUART1(void)
 {
     //RTS = 0                           // Optional RTS use

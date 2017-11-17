@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <xc.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 //Configures the PBCLK to 40Mhz
 #pragma config FNOSC = PRIPLL 
@@ -32,7 +34,7 @@ void main (void)
     int DUMMY; 
     int i = 0; //i will be used to index the buffer arrays
     struct DATA_PACKET DATA;
-    
+
     INTISPI2(); //Initialize SPI2 on the MX4 board
     INTIUART1();//Initialize UART1 on the MX4 board
     
@@ -47,8 +49,14 @@ void main (void)
     while(1)
     {
         DATA = READDATA();//Reads the x, y, z data registers 
-        DELAY(50000); //Small Delay between reads
-        DISPLAYDATA(DATA);//Sends the data to UART the BLUETOOTH module 
+        DELAY(100000); //Small Delay between reads
+        SENDUART1(DATA.X0);
+        SENDUART1(DATA.X1);
+        SENDUART1(DATA.Y0);
+        SENDUART1(DATA.Y1);
+        SENDUART1(DATA.Z0);
+        SENDUART1(DATA.Z1);
+        //DISPLAYDATA(DATA);        
     }
     return 0;
 }
@@ -140,13 +148,32 @@ struct DATA_PACKET READDATA()
 
 void DISPLAYDATA(struct DATA_PACKET DATA)
 {
-    SENDUART1(CHAR_X);
-    SENDUART1(COLON);
-    INTTOASCII((DATA.X1 << 8 | DATA.X0), 3);
+    int x_data;
+    int y_data;
+    int z_data;
+    char buffer [4];
+    
+    x_data = (int)((short)(DATA.X1 << 8) | DATA.X0);
+    y_data = (int)((short)(DATA.Y1 << 8) | DATA.Y0);
+    z_data = (int)((short)(DATA.Z1 << 8) | DATA.Z0);
+    
+    SENDUART1(CHAR_X);//X
+    SENDUART1(COLON);//:
+    itoa(buffer, x_data, 10);//Convert the number to ascii code 
+    SENDUART1ARRAY(buffer, 4);//Send to terminal 
+    SENDUART1(32);//Space 
+    
     SENDUART1(CHAR_Y);
     SENDUART1(COLON);
-    INTTOASCII((DATA.Y1 << 8 | DATA.Y0), 3);
+    itoa(buffer, y_data, 10);
+    SENDUART1ARRAY(buffer, 4);
+    SENDUART1(32);
+    
     SENDUART1(CHAR_Z);
     SENDUART1(COLON);
-    INTTOASCII((DATA.Z1 << 8| DATA.Z0), 3);
+    itoa(buffer, z_data, 10);
+    SENDUART1ARRAY(buffer, 4);
+    
+    SENDUART1(10);//Newline
+    SENDUART1(13);//Return
 }

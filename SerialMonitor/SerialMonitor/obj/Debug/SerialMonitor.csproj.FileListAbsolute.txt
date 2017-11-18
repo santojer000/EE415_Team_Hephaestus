@@ -1,0 +1,14 @@
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.csprojResolveAssemblyReference.cache
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.Form1.resources
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.Properties.Resources.resources
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.csproj.GenerateResource.Cache
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.csproj.CoreCompileInputs.cache
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\bin\Debug\SerialMonitor.exe.config
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\bin\Debug\SerialMonitor.exe
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\bin\Debug\SerialMonitor.pdb
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.exe
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.pdb
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\bin\Debug\SerialMonitor.exe.manifest
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\bin\Debug\SerialMonitor.application
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.exe.manifest
+C:\Users\AdoneyGalvan\source\repos\SerialMonitor\SerialMonitor\obj\Debug\SerialMonitor.application

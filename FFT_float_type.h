@@ -13,6 +13,7 @@ float max(float *input_array, unsigned int size);
 void frequency_scaling(int *indeces);
 void amplitude_scaling(unsigned int sample_size, float *samples);
 void fft_shift(unsigned int sample_size, float *samples);
+void moving_average_filter(float *samples, float *filtered_values, int length_samples, int length_average);
 
 //Function Bodies
 
@@ -279,8 +280,11 @@ float max(float *input_array, unsigned int size)
 	size = size / 2;
 	int i = 0;
 	float max = 0;
+	float absolute = 0;
 	for (i = 0; i < size - 1; i++)
 	{
+		if (input_array[i] < 0) absolute = input_array[i] * -1;
+		else absolute = input_array[i];
 		if (max < input_array[i]) max = input_array[i];
 	}
 
@@ -352,6 +356,31 @@ void fft_shift(unsigned int sample_size, float *samples)
 		samples[i + N] = temp1;
 	}
 }	// End function
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  Function:    moving_average_filter								 *
+*  Input:       float pointer, float pointer						 *
+*  Output:      void                                                *
+*  See Funcs:   N/A                                                 *
+*  Description: smooths data set								    *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+void moving_average_filter(float *samples, float *filtered_values, int length_samples, int length_average)
+{
+	int i = 0;
+	int j = 0;
+	float weight = 1 / length_average;
+	for (i = 0; i < length_samples; i++)
+	{
+		if (i + length_average > length_samples) filtered_values(i) = 0;
+		else
+		{
+			for (j = 0; j < length_average; j++)
+			{
+				filtered_values(i) = weight*samples(i + j);
+			}
+		}
+	{
+}
 
 
 

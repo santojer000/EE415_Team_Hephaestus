@@ -369,6 +369,8 @@ void moving_average_filter(float *samples, float *filtered_values, int length_sa
 	int i = 0;
 	int j = 0;
 	float weight = 1 / length_average;
+	filtered_values(i) = 0;
+
 	for (i = 0; i < length_samples; i++)
 	{
 		if (i + length_average > length_samples) filtered_values(i) = 0;
@@ -376,7 +378,7 @@ void moving_average_filter(float *samples, float *filtered_values, int length_sa
 		{
 			for (j = 0; j < length_average; j++)
 			{
-				filtered_values(i) = weight*samples(i + j);
+				filtered_values(i) += weight*samples(i + j);
 			}
 		}
 	{

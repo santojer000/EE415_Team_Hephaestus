@@ -359,7 +359,35 @@ void fft_shift(unsigned int sample_size, float *samples)
 	}
 }	// End function
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  Function:    moving_average_filter								 *
+*  Input:       float pointer, float pointer						 *
+*  Output:      void                                                *
+*  See Funcs:   N/A                                                 *
+*  Description: smooths data set								    *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+void moving_average_filter(float *samples, float *filtered_values, int length_samples, int length_average)
+{
+	int i = 0;
+	int j = 0;
+	float weight = 1 / length_average; //compute weight once
 
+	for (i = 0; i < length_samples; i++)
+	{
+		filtered_values(i) = 0;	//initialize current filtered value to zero
+
+		if (i + length_average > length_samples) filtered_values(i) = 0;
+		else
+		{
+			for (j = 0; j < length_average; j++)
+			{	//					          i+j
+				// filtered_values(i) = (1/N) sum samples(n)  
+				//					         n = i	
+				filtered_values(i) += weight*samples(i + j);
+			}
+		}
+	{
+	}
 
 
 #endif

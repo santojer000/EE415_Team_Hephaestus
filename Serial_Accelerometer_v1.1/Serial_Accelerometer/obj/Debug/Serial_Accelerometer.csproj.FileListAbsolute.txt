@@ -1,0 +1,44 @@
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe.config
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.pdb
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csprojResolveAssemblyReference.cache
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.Form1.resources
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.Properties.Resources.resources
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csproj.GenerateResource.Cache
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csproj.CoreCompileInputs.cache
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.exe
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.pdb
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.dll.config
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Extensions.Core.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Extensions.Math.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Math.Core.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Math.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Statistics.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\DotImaging.Primitives2D.dll
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Extensions.Core.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Extensions.Math.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Math.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Math.Core.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.Statistics.xml
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe.manifest
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.application
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.exe.manifest
+C:\Users\AdoneyGalvan\source\repos\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.application
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Accord.dll.config
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe.config
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe.manifest
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.application
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.exe
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\Serial_Accelerometer.pdb
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\bin\Debug\DotImaging.Primitives2D.dll
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csprojResolveAssemblyReference.cache
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.Form1.resources
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.Properties.Resources.resources
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csproj.GenerateResource.Cache
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.csproj.CoreCompileInputs.cache
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.exe.manifest
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.application
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.exe
+C:\Users\Jerome\Documents\Visual Studio 2017\Projects\Serial_Accelerometer\Serial_Accelerometer\obj\Debug\Serial_Accelerometer.pdb

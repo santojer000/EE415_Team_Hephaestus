@@ -25,7 +25,7 @@ using System.Numerics;
 
 namespace Serial_Accelerometer
 {
-    public partial class Form1 : Form
+    public partial class SerialAccelGUI : Form
     {
         // Variables
         SerialPort accelerometer = new SerialPort();
@@ -36,9 +36,14 @@ namespace Serial_Accelerometer
         int z_data;
         int count = 0;
 
-        public Form1()
+        public SerialAccelGUI()
         {
             InitializeComponent();
+
+            // Create new instance of splash screen
+            SerialAccelSplashScreen splash = new SerialAccelSplashScreen();
+            splash.ShowDialog();    // Show splash screen
+
             ComboComBox.Items.AddRange(SerialPort.GetPortNames());
             ButtonClose.Enabled = false;
             TimerUpdate.Enabled = false;
@@ -153,7 +158,9 @@ namespace Serial_Accelerometer
          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Create new instance of AboutForm
+            // Create a new instance of the about form
+            AboutSerialAccel about = new AboutSerialAccel();
+            about.ShowDialog(); // Display to the user the about form
         }   // End event
     }   // End class
 }

@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Serial_Accelerometer.exe" size="198640">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Serial_Accelerometer.exe" size="199128">
       <assemblyIdentity name="Serial_Accelerometer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>RG+ed3o4UJRtzDX/Ip+n6iF202hjR9Xmz1+Hc29+P+Q=</dsig:DigestValue>
+        <dsig:DigestValue>5z1ZcZCKcEIdSWm4qkfwE1SVjexsM+RiVHDeVJuWxGE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

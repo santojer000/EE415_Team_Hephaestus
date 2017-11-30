@@ -162,5 +162,6 @@ namespace Serial_Accelerometer
             AboutSerialAccel about = new AboutSerialAccel();
             about.ShowDialog(); // Display to the user the about form
         }   // End event
+
     }   // End class
 }

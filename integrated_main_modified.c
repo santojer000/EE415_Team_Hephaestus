@@ -78,12 +78,12 @@ void main (void)
 		}
 
 		//Process X Data
-		//Assign samples to new indeces
-		bit_reversal(x_samples, samples_reversed, bit_reversed_indeces, 1024);
 		//moving average filter added
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		moving_average_filter(samples_reversed, samples_reversed, 1024, 4);
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//Assign samples to new indeces
+		bit_reversal(x_samples, samples_reversed, bit_reversed_indeces, 1024);
         FFT(10, samples_reversed, imaginary); //perform FFT
         magnitude(1024, samples_reversed, samples_reversed, imaginary); //Normalize data set
 		amplitude_scaling(1024, samples_reversed);
